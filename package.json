@@ -1,0 +1,17 @@
+{
+    "name": "monitroll-client",
+    "version": "0.0.0",
+    "description": "Monitroll client application to monitor your trolls",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": "https://github.com/nosebit/monitroll_client",
+    "keywords": [
+    ],
+    "author": "Nosebit",
+    "license": "CC0-1.0",
+    "devDependencies": {
+        "electron": "~1.6.2"
+    }
+}
