@@ -1,0 +1,34 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": [
+            "jsdoc"
+        ]
+    },
+    "source": {
+        "include": [
+            "src"
+        ],
+        "includePattern": ".js$",
+        "excludePattern": "(node_modules/|docs|/jsdocs)"
+    },
+    "plugins": [
+        "node_modules/jsdoc-babel",
+        "plugins/markdown"
+    ],
+    "babel": {
+        "extensions": [
+            "js"
+        ]
+    },
+    "templates": {
+        "referenceTitle": "Darch"
+    },
+    "opts": {
+        "destination": "./jsdocs/",
+        "encoding": "utf8",
+        "private": true,
+        "recurse": true,
+        "template": "./node_modules/jsdoc-template"
+    }
+}

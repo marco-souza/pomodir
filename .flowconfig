@@ -1,0 +1,46 @@
+[include]
+./src
+
+[ignore]
+.*/node_modules/*.
+.*/__tests__/*.
+<PROJECT_ROOT>/dist
+<PROJECT_ROOT>/gulpfile\.js
+<PROJECT_ROOT>/main\.js
+<PROJECT_ROOT>/webpack
+
+[libs]
+./flow-typed
+
+[options]
+all=true
+
+[lints]
+# all=off by default
+all=error
+
+# Support webpack's resolve.root
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=src
+
+# Support importing non-js files with webpack
+module.name_mapper='^\(.*\)\.s?css$' -> '<PROJECT_ROOT>/flow/CSSModule.js'
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js'
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/flow/WebpackAsset.js'
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js'
+
+# Support for ES7 classes
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+esproposal.export_star_as=enable
+
+# Support @decorators
+esproposal.decorators=ignore
+
+# Allow skipping individual lines
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
+suppress_comment=\\(.\\|\n\\)*\\$IgnoreGlobal
+
+# For more docs:
+# https://blog.iansinnott.com/getting-started-with-flow-and-webpack/
