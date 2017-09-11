@@ -1,25 +1,15 @@
-import activeWin from "active-win";
+import "babel-polyfill";
 import React from "react";
 import { render } from "react-dom";
+import App from "app";
 
 /****************************************************************
 * App Bootstrap
 ****************************************************************/
 function bootstrap() {
-    
-    setInterval(() => {
-        let active = activeWin.sync();
-        console.log(["active window", active]);
-    }, 5000);
 
     // Render routes
-    render(
-        <div>
-            I am Monitroll! :)
-        </div>
-        , 
-        document.getElementById("main")
-    );
+    render(<App/>, document.getElementById("main"));
 }
 
 /****************************************************************

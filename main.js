@@ -1,5 +1,6 @@
 const electron = require("electron")
 const client = require("electron-connect").client;
+const filepaths = require("./filepaths");
 
 // Module to control application life.
 const app = electron.app
@@ -19,14 +20,17 @@ function createWindow() {
         width: 300, 
         height: 150, 
         resizable: false, 
-        frame: false
+        frame: false,
+        webPreferences: {
+            webSecurity: false
+        }
     })
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, "index.html"),
+        pathname: path.join(__dirname, "dist/index.html"),
         protocol: "file:",
-        slashes: true
+        slashes: true,
     }))
 
     // Open the DevTools.
@@ -40,7 +44,9 @@ function createWindow() {
         mainWindow = null
     })
 
-    client.create(mainWindow);
+    if(process.env.NODE_ENV == "development") {
+        client.create(mainWindow);
+    }
 }
 
 // This method will be called when Electron has finished

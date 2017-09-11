@@ -6,7 +6,7 @@ module.exports = {
     src: {
         html: "./src/index.pug",
         sitemap: "./src/sitemap.xml",
-        main_js: "./src/index.js",
+        index_js: "./src/index.js",
         js: ["./src/**/*.js"],
         assets: [
             "./src/assets/icons/**/*"

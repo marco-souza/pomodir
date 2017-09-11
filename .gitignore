@@ -3,3 +3,6 @@
 
 # Npm stuff
 node_modules
+
+# Release folders
+dist
