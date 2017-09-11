@@ -1,16 +1,21 @@
+import activeWin from "active-win";
 import React from "react";
 import { render } from "react-dom";
-import config from "config";
 
 /****************************************************************
 * App Bootstrap
 ****************************************************************/
 function bootstrap() {
     
+    setInterval(() => {
+        let active = activeWin.sync();
+        console.log(["active window", active]);
+    }, 5000);
+
     // Render routes
     render(
         <div>
-            Jacinto Electron {config.test}
+            I am Monitroll! :)
         </div>
         , 
         document.getElementById("main")

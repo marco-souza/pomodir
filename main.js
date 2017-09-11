@@ -24,13 +24,13 @@ function createWindow() {
 
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, "dist/index.html"),
+        pathname: path.join(__dirname, "index.html"),
         protocol: "file:",
         slashes: true
     }))
 
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools({ mode: "detach" })
+    mainWindow.webContents.openDevTools({ mode: "detach" })
 
     // Emitted when the window is closed.
     mainWindow.on("closed", function () {
@@ -40,8 +40,7 @@ function createWindow() {
         mainWindow = null
     })
 
-    // Connect to server process 
-    client.create(mainWindow); 
+    client.create(mainWindow);
 }
 
 // This method will be called when Electron has finished
