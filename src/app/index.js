@@ -1,23 +1,24 @@
 import activeWin from "active-win";
 import React from "react";
-//import LoggerFactory from "utils/logger";
+import LoggerFactory from "utils/logger";
+import styles from "./styles";
 
-//let Logger = new LoggerFactory("app.page");
+let Logger = new LoggerFactory("app.page");
 
 export default class App extends React.Component {
     async componentDidMount() {
-        //let logger = Logger.create("componentDidMount");
-        //logger.info("enter");
+        let logger = Logger.create("componentDidMount");
+        logger.info("enter");
 
         setInterval(() => {
             let active = activeWin.sync();
-            console.log(["active window", active.app]);
+            logger.info("active window", {app: active.app});
         }, 5000);
     }
 
     render() {
         return (
-            <div>
+            <div className={styles.main}>
                 Finally!! :)
             </div>
         );

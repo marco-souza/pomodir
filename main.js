@@ -18,7 +18,7 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 300, 
-        height: 150, 
+        height: 80, 
         resizable: false, 
         frame: false,
         webPreferences: {

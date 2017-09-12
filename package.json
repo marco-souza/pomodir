@@ -66,6 +66,7 @@
         "jest": "^21.0.2",
         "jest-cli": "^21.0.2",
         "style-loader": "^0.18.2",
+        "stylus": "^0.54.5",
         "stylus-loader": "^3.0.1",
         "url-loader": "^0.5.9",
         "virtual-module-webpack-plugin": "^0.3.0",
