@@ -99,7 +99,7 @@ gulp.task("development", [
 
 
     // Reload renderer process
-    gulp.watch(["./src/**/*.js", "./index.html"], electron.reload);
+    gulp.watch(["./dist/**/*.js", "./dist/**/*.html"], electron.reload);
 });
 
 /****************************************************************
