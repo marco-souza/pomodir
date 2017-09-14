@@ -3,6 +3,8 @@ let path = require("path");
 module.exports = {
     dest: path.resolve(__dirname, "dist"),
 
+    icon: path.resolve(__dirname, "src/assets/images/logo.jpeg"),
+
     src: {
         html: "./src/index.pug",
         sitemap: "./src/sitemap.xml",

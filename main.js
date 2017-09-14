@@ -1,72 +1,118 @@
-const electron = require("electron")
-const client = require("electron-connect").client;
-const filepaths = require("./filepaths");
+const
+    url = require("url"),
+    path = require("path"),
+    electron = require("electron"),
+    filepaths = require("./filepaths"),
+    client = require("electron-connect").client,
 
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+    // Module to control application life.
+    app = electron.app
 
-const path = require("path")
-const url = require("url")
+    Tray = electron.Tray,
+    Menu = electron.Menu,
+    BrowserWindow = electron.BrowserWindow
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+class MainApp {
 
-function createWindow() {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({
-        width: 300, 
-        height: 80, 
-        resizable: false, 
-        frame: false,
-        webPreferences: {
-            webSecurity: false
-        }
-    })
-
-    // and load the index.html of the app.
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, "dist/index.html"),
-        protocol: "file:",
-        slashes: true,
-    }))
-
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools({ mode: "detach" })
-
-    // Emitted when the window is closed.
-    mainWindow.on("closed", function () {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        mainWindow = null
-    })
-
-    if(process.env.NODE_ENV == "development") {
-        client.create(mainWindow);
+    /**
+     * Creates an instance of MainApp.
+     * @memberof MainApp
+     */
+    constructor() {
+        this.appIcon = null
+        this.mainWindow = null
+        this.visible = false
     }
+
+    /**
+     * Function to Run when app is ready
+     *
+     * @memberof MainApp
+     */
+    appReady() {
+
+        const
+            createWindow = () => {
+                // Create the browser window.
+                this.mainWindow = new BrowserWindow({
+                    width: 300,
+                    height: 150,
+                    resizable: true,
+                    show: false,
+                    frame: false,
+                })
+
+                // and load the index.html of the app.
+                this.mainWindow.loadURL(url.format({
+                    pathname: path.join(filepaths.dest, "index.html"),
+                    protocol: "file:",
+                    slashes: true
+                }))
+
+                // Emitted when the window is closed.
+                this.mainWindow.on("closed", () => {
+                    // Dereference the window object, usually you would store windows
+                    // in an array if your app supports multi windows, this is the time
+                    // when you should delete the corresponding element.
+                    this.mainWindow = null
+                })
+
+                // Open the DevTools.
+                if (process.env.NODE_ENV == "development") {
+                    this.mainWindow.webContents.openDevTools({ mode: "detach" })
+                }
+            },
+
+            toggle = () => {
+                if (this.visible) {
+                    this.mainWindow.hide()
+                } else {
+                    this.mainWindow.show()
+                }
+                this.visible = !this.visible
+            }
+
+        // Can be changed in runtime
+        let contextMenu = Menu.buildFromTemplate([
+            { label: 'Item1', type: 'radio' },
+            { label: 'Item2', type: 'radio' },
+            { label: 'Item3', type: 'radio', checked: true },
+            { label: 'Item4', type: 'radio' }
+        ]);
+
+        // Create trayIcon
+        this.appIcon = new Tray(filepaths.icon)
+        this.appIcon.on("click", toggle) // Linux just accept normal click :/
+        this.appIcon.setToolTip('This is my application.');
+        this.appIcon.setContextMenu(contextMenu);
+
+        // Preload window
+        createWindow()
+    }
+
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on("ready", createWindow)
+const mainApp = new MainApp()
+
+
+app.on("ready", mainApp.appReady)
 
 // Quit when all windows are closed.
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== "darwin") {
-        app.quit()
+        app.hide()
     }
 })
 
-app.on("activate", function () {
+app.on("activate", () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
+    if (mainApp.mainWindow === null) {
         createWindow()
     }
 })

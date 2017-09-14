@@ -1,5 +1,4 @@
 /* eslint-disable flowtype/require-parameter-type */
-
 let gulp = require("gulp"),
     gutil = require("gulp-util"),
     pug = require("gulp-pug"),
@@ -95,7 +94,12 @@ gulp.task("development", [
     gulp.watch(filepaths.src.html, ["pug:dev"]);
     gulp.watch(filepaths.src.assets, ["assets"]);
 
-    gulp.watch(["./dist/**/*.js", "./dist/**/*.html"], electron.reload);
+    // Restart browser process
+    gulp.watch("main.js", electron.restart);
+
+
+    // Reload renderer process
+    gulp.watch(["./src/**/*.js", "./index.html"], electron.reload);
 });
 
 /****************************************************************
