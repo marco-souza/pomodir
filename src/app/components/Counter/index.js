@@ -89,7 +89,7 @@ export default class Component extends React.Component<Props> {
                         }
                     </div>
 
-                    {/* TODO: Make it increase  */}
+                    {/* Percent finished */}
                     <div className={styles.fill} style={{height: `${this.state.percent}%`}} ></div>
                 </div>
             </div>
