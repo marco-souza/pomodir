@@ -1,17 +1,17 @@
 {
-    "name": "monitroll-client",
+    "name": "pomodir",
     "version": "0.0.0",
-    "description": "Monitroll client application to monitor your trolls",
+    "description": "A simple pomodoro to improve your productivity",
     "main": "main.js",
     "scripts": {
         "start": "NODE_PATH=./src NODE_ENV=production gulp",
         "dev": "NODE_PATH=./src NODE_ENV=development gulp",
         "register": "electron -r babel-register ."
     },
-    "repository": "https://github.com/nosebit/monitroll_client",
+    "repository": "https://github.com/marco-souza/pomodir",
     "keywords": [],
-    "author": "Nosebit",
-    "license": "CC0-1.0",
+    "author": "Marco Antônio",
+    "license": "MIT",
     "dependencies": {
         "active-win": "^2.0.0",
         "babel-polyfill": "^6.26.0",

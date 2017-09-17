@@ -1,3 +1,3 @@
-# Monitroll Client Application
+# Pomodir - A easy pomodoro app
 
-This client application let you monitor you troll workers.
+Simple Pomodoro App to improve your productivity.
