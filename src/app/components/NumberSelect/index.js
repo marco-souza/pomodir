@@ -7,6 +7,7 @@ type Props = {
     interval: Number,
     max: ?Number,
     mix: ?Number,
+    editable: ?Boolean,
 }
 
 let Logger = new LoggerFactory("NumberSelect");
@@ -17,7 +18,8 @@ export default class Component extends React.Component<Props> {
         init: 0,
         interval: 1,
         min: 0,
-        max: 100
+        max: 100,
+        editable: true
     }
 
     state = {
@@ -29,17 +31,24 @@ export default class Component extends React.Component<Props> {
         let logger = Logger.create("componentDidMount");
         logger.info("enter");
 
-        this.state = {
+        this.setState({
             currentValue: this.props.init,
             interval: this.props.interval
-        };
+        });
+    }
+
+    componentWillReceiveProps(newProps: Props) {
+        this.setState({
+            currentValue: newProps.init,
+            interval: newProps.interval
+        });
     }
 
     render() {
         return (
             <div className={styles.main} >
                 <div
-                    className={styles.button}
+                    className={this.props.editable ? styles.button : styles.buttonDisabled}
                     onClick={() => {
                         const result = this.state.currentValue + this.state.interval;
                         this.setState({
@@ -54,7 +63,7 @@ export default class Component extends React.Component<Props> {
                     }
                 </div>
                 <div
-                    className={styles.button}
+                    className={this.props.editable ? styles.button : styles.buttonDisabled}
                     onClick={() => {
                         const result = this.state.currentValue - this.state.interval;
                         this.setState({

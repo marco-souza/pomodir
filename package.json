@@ -16,6 +16,7 @@
         "active-win": "^2.0.0",
         "babel-polyfill": "^6.26.0",
         "babel-register": "^6.26.0",
+        "electron-notifications": "^1.0.0",
         "history": "^4.7.2",
         "lodash": "^4.17.4",
         "moment": "^2.18.1",
