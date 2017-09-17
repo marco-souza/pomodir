@@ -103,6 +103,26 @@ gulp.task("development", [
 });
 
 /****************************************************************
+* PRODUCTION TASK
+****************************************************************/
+gulp.task("production", [
+    "pug:dev",
+    "bundle:dev"
+], function () {
+    electron.start();
+
+    gulp.watch(filepaths.src.html, ["pug:dev"]);
+    gulp.watch(filepaths.src.assets, ["assets"]);
+
+    // Restart browser process
+    gulp.watch("main.js", electron.restart);
+
+
+    // Reload renderer process
+    gulp.watch(["./dist/**/*.js", "./dist/**/*.html"], electron.reload);
+});
+
+/****************************************************************
 * DEFAULT TASK : Choose task by NODE_ENV
 ****************************************************************/
 gulp.task("default", [

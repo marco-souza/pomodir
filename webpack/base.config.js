@@ -111,8 +111,10 @@ module.exports = {
         modules: [
             path.resolve(__dirname, ".."),
             path.resolve(__dirname, "../src"),
+            path.resolve(__dirname, "../src/app"),
             path.resolve(__dirname, "../docs/src"),
-            path.resolve(__dirname, "../node_modules")
+            path.resolve(__dirname, "../node_modules"),
+            path.resolve(__dirname, "../src/app/components"),
         ],
         extensions: [".js", ".jsx", ".styl", ".css", ".png", ".jpg"]
     },

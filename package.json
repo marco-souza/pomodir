@@ -4,7 +4,8 @@
     "description": "Monitroll client application to monitor your trolls",
     "main": "main.js",
     "scripts": {
-        "start": "NODE_PATH=./src NODE_ENV=development gulp",
+        "start": "NODE_PATH=./src NODE_ENV=production gulp",
+        "dev": "NODE_PATH=./src NODE_ENV=development gulp",
         "register": "electron -r babel-register ."
     },
     "repository": "https://github.com/nosebit/monitroll_client",

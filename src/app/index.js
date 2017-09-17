@@ -2,12 +2,14 @@ import activeWin from "active-win";
 import React from "react";
 import LoggerFactory from "utils/logger";
 import styles from "./styles";
+import Counter from "Counter";
 
 let Logger = new LoggerFactory("app.page");
 
 export default class App extends React.Component {
     async componentDidMount() {
         let logger = Logger.create("componentDidMount");
+        console.log("componentDidMount");
         logger.info("enter");
 
         setInterval(() => {
@@ -19,12 +21,8 @@ export default class App extends React.Component {
     render() {
         return (
             <div className={styles.main}>
-                Finally!! :)
+                <Counter min={25} sec={0} />
             </div>
         );
     }
 }
-//I am Monitroll! :)
-/*export default (props) => {
-    return <App {...props} />
-}*/

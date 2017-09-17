@@ -41,7 +41,7 @@ const
     },
 
     /**
-     *
+     * Run when app is ready
      *
      * @param {any} mainWindow
      * @param {any} visible
@@ -83,7 +83,7 @@ const
 // Start-up the App
 app.on("ready", appReady(
     createWindow,
-    window =>new BrowserWindow({
+    window => new BrowserWindow({
         width: 300,
         height: 150,
         resizable: true,
