@@ -1,12 +1,13 @@
 import activeWin from "active-win";
 import React from "react";
+import { connect } from "react-redux";
 import LoggerFactory from "utils/logger";
 import styles from "./styles";
 import Counter from "Counter";
 
 let Logger = new LoggerFactory("app.page");
 
-export default class App extends React.Component {
+class Component extends React.Component {
     async componentDidMount() {
         let logger = Logger.create("componentDidMount");
         console.log("componentDidMount");
@@ -19,10 +20,13 @@ export default class App extends React.Component {
     }
 
     render() {
+        console.log("store", this.props.store);
         return (
             <div className={styles.main}>
-                <Counter min={25} sec={0} />
+                <Counter />
             </div>
         );
     }
 }
+
+export default connect()(Component);
