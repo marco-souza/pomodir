@@ -47,20 +47,26 @@ class Component extends React.Component<Props> {
 
     start() {
 
-        this.setState({ running: true, total: this.props.min*60 + this.props.sec });
-        this.counter = setInterval(() => {
-            // Decrement time in store
-            this.props.decrementCounter();
-            // Increment Percent
-            this.setState( { percent: (1 - (this.props.min*60 + this.props.sec)/this.state.total ) * 100 } );
+        if (this.props.min + this.props.sec == 0) {
+            alert("Finished");
+        } else {
 
-            // Check if is the end
-            if (this.props.min + this.props.sec == 0) {
-                this.resetData();
-                alert("Finished");
-            }
+            this.setState({ running: true, total: this.props.min*60 + this.props.sec });
+            this.counter = setInterval(() => {
+                // Decrement time in store
+                this.props.decrementCounter();
+                // Increment Percent
+                this.setState( { percent: (1 - (this.props.min*60 + this.props.sec)/this.state.total ) * 100 } );
 
-        }, 1000);
+                // Check if is the end
+                if (this.props.min + this.props.sec == 0) {
+                    this.resetData();
+                    alert("Finished");
+                }
+
+            }, 1000);
+
+        }
     }
 
     stop() {
