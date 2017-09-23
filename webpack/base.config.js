@@ -1,7 +1,7 @@
 let path = require("path"),
     webpack = require("webpack"),
     FlowtypePlugin = require("flowtype-loader/plugin"),
-    filepaths = require("../filepaths");
+    filepaths = require("../filepaths")
 
 module.exports = {
     target: "electron-renderer",
@@ -109,12 +109,11 @@ module.exports = {
             "darch": path.resolve(__dirname, "..")
         },
         modules: [
-            path.resolve(__dirname, ".."),
-            path.resolve(__dirname, "../src"),
-            path.resolve(__dirname, "../src/app"),
-            path.resolve(__dirname, "../docs/src"),
-            path.resolve(__dirname, "../node_modules"),
-            path.resolve(__dirname, "../src/app/components"),
+            path.resolve(__dirname, "../node_modules"),         // -> Node Modules
+            path.resolve(__dirname, "../src"),                  // -> App src
+            path.resolve(__dirname, "../src/app"),              // -> App root
+            path.resolve(__dirname, "../src/app/components"),   // -> App's Components
+            path.resolve(__dirname, "../src/redux"),            // -> Redux
         ],
         extensions: [".js", ".jsx", ".styl", ".css", ".png", ".jpg"]
     },
@@ -132,4 +131,4 @@ module.exports = {
         ]),
         new FlowtypePlugin()
     ]
-};
+}

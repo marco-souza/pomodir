@@ -1,77 +1,72 @@
-import React from "react";
-import LoggerFactory from "utils/logger";
-import styles from "./styles";
-import { connect } from "react-redux";
-import NumberSelect from "../NumberSelect";
+import React from "react"
+import LoggerFactory from "utils/logger"
+import styles from "./styles"
+import { connect } from "react-redux"
+import NumberSelect from "../NumberSelect"
+import actionCreator from "actions/countdown"
+import _ from "lodash"
 
-let Logger = new LoggerFactory("Counter");
+let Logger = new LoggerFactory("Counter")
 
-const mapStateToProps = state => {
-    console.log("mapStateToProps", state);
-    return {
-        min: state.min,
-        sec: state.sec,
-    };
-};
+const mapStateToProps = state =>{
+    console.log(_.pick(state, ["min", "sec"]))
+    return _.pick(state, ["min", "sec"])
+}
+const mapDispatchToProps = dispatch =>
+    _.pick(actionCreator(dispatch), ["resetCounter", "tickCounter"])
 
-const mapDispatchToProps = dispatch => {
-    return {
-        resetCounter: () => {
-            dispatch({ type: "RESET_COUNTDOWN" });
-        },
-        decrementCounter: () => {
-            dispatch({ type: "DECREMENT_COUNTDOWN" });
-        }
-    };
-};
-
-class Component extends React.Component<Props> {
+class Component extends React.Component {
 
     async componentWillMount() {
-        let logger = Logger.create("componentDidMount");
-        logger.info("enter");
+        let logger = Logger.create("componentDidMount")
+        logger.info("enter")
         this.state = {
             running: false,
-            min: this.props.min,
-            sec: this.props.sec,
             total: this.props.min*60 + this.props.sec,
             percent: 0,
-        };
-    }
-
-    resetData() {
-        this.setState({ running: false, percent: 0 });
-        clearInterval(this.counter);
-        this.props.resetCounter();
-    }
-
-    start() {
-
-        if (this.props.min + this.props.sec == 0) {
-            alert("Finished");
-        } else {
-
-            this.setState({ running: true, total: this.props.min*60 + this.props.sec });
-            this.counter = setInterval(() => {
-                // Decrement time in store
-                this.props.decrementCounter();
-                // Increment Percent
-                this.setState( { percent: (1 - (this.props.min*60 + this.props.sec)/this.state.total ) * 100 } );
-
-                // Check if is the end
-                if (this.props.min + this.props.sec == 0) {
-                    this.resetData();
-                    alert("Finished");
-                }
-
-            }, 1000);
-
         }
     }
 
+    /**
+     * Reset component state and store
+     *
+     * @memberof Component
+     */
+    resetData() {
+        this.setState({ running: false, percent: 0 }) // -> reset
+        clearInterval(this.counter) // -> stop counter
+        this.props.resetCounter() // -> reset counter to default
+    }
+
+    /**
+     * Start the countdown
+     *
+     * @memberof Component
+     */
+    start() {
+        this.setState({ running: true, total: this.props.min*60 + this.props.sec })
+
+        // Save counter to stop
+        this.counter = setInterval(() => {
+            if (this.props.min + this.props.sec > 0) {
+                // Decrement time in store
+                this.props.tickCounter()
+                // Increment Percent
+                this.setState( { percent: (1 - (this.props.min*60 + this.props.sec)/this.state.total ) * 100 } )
+            } else {
+                this.resetData()
+                alert("Finished")
+            }
+        }, 1000)
+    }
+
+    /**
+     * Stop the countdown and reset
+     *
+     * @memberof Component
+     */
     stop() {
-        this.resetData();
-        alert("Parado aí malucão!");
+        this.resetData()
     }
 
     render() {
@@ -83,26 +78,36 @@ class Component extends React.Component<Props> {
                     <div className={styles.inputs} >
 
                         {/* Minutes Select */}
-                        <NumberSelect init={this.props.min} interval={5} max={60} type="SET_MIN_COUNTDOWN" editable={!this.state.running}/>
+                        <NumberSelect
+                            counterValue={this.props.min}
+                            interval={5}
+                            max={60}
+                            type="MINUTE"
+                            editable={!this.state.running}/>
+
                         {/* Seconds Select */}
-                        <NumberSelect init={this.props.sec} interval={10} max={59} type="SET_SEC_COUNTDOWN" editable={!this.state.running}/>
+                        <NumberSelect
+                            counterValue={this.props.sec}
+                            interval={10}
+                            max={59}
+                            type="SECOND"/>
 
                     </div>
 
                     {/* Controls */}
                     <div className={styles.controls}>
-                        {
-                            this.state.running ?
-                                <div onClick={this.stop}>   Stop </div>:
-                                <div onClick={this.start}>  Start </div>
-                        }
+                        { this.state.running
+                            ? <div onClick={this.stop}>   Stop </div>
+                            : <div onClick={this.start}>  Start </div> }
                     </div>
 
                     {/* Percent finished */}
-                    <div className={styles.fill} style={{height: `${this.state.percent}%`}} ></div>
+                    <div
+                        className={styles.fill}
+                        style={{height: `${this.state.percent}%`}} />
                 </div>
             </div>
-        );
+        )
     }
 }
 
@@ -110,4 +115,4 @@ class Component extends React.Component<Props> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Component);
+)(Component)

@@ -1,10 +1,12 @@
-import React from "react";
-import { connect } from "react-redux";
-import LoggerFactory from "utils/logger";
-import styles from "./styles";
+import React from "react"
+import { connect } from "react-redux"
+import LoggerFactory from "utils/logger"
+import styles from "./styles"
+import actionCreator from "actions/countdown"
+import _ from "lodash"
 
 type Props = {
-    init: Number,
+    counterValue: Number,
     interval: Number,
     type: String,
     max: ?Number,
@@ -12,63 +14,75 @@ type Props = {
     editable: ?Boolean,
 }
 
-let Logger = new LoggerFactory("NumberSelect");
+let Logger = new LoggerFactory("NumberSelect")
 
-const mapDispatchToProps = dispatch => {
-    return {
-        setCounter: ( value, type, max ) => {
-            dispatch({ type, value, max });
-        }
-    };
-};
+// Use Action creator for countdown state controller
+const mapDispatchToProps = dispatch =>
+    _.pick(actionCreator(dispatch), ["setCounter"])
 
 class Component extends React.Component<Props> {
 
     static defaultProps: Props = {
-        init: 0,
+        counterValue: 0,
         interval: 1,
         min: 0,
         max: 100,
-        editable: true
+        editable: false
     }
 
     componentWillMount() {
-        let logger = Logger.create("componentDidMount");
-        logger.info("enter");
+        let logger = Logger.create("componentDidMount")
+        console.log("enter", this.props)
     }
 
     render() {
         return (
             <div className={styles.main} >
+
+                {/* Positive button */}
                 <div
-                    className={this.props.editable ? styles.button : styles.buttonDisabled}
+                    className={
+                        this.props.editable
+                            ? styles.button
+                            : styles.buttonDisabled }
+
                     onClick={() => {
-                        let result = this.props.init + this.props.interval;
-                        this.props.setCounter( result < this.props.max ? result : this.props.max, this.props.type, this.props.max );
-                    }}
+                        let result = this.props.counterValue + this.props.interval
+                        this.props.setCounter(
+                            result < this.props.max
+                                ? result
+                                : this.props.max, this.props.type ) }}
                 >+</div>
 
+                {/* Counter view */}
                 <div>
-                    { ("" + this.props.init).length > 1 ?
-                        "" + this.props.init : "0" + this.props.init }
+                    { ("" + this.props.counterValue).length > 1
+                        ? "" + this.props.counterValue
+                        : "0" + this.props.counterValue }
                 </div>
 
+                {/* Negative button */}
                 <div
-                    className={this.props.editable ? styles.button : styles.buttonDisabled}
+                    className={
+                        this.props.editable
+                            ? styles.button
+                            : styles.buttonDisabled }
+
                     onClick={() => {
-                        let result = this.props.init - this.props.interval;
-                        this.props.setCounter( result > this.props.min ? result : this.props.min , this.props.type );
+                        let result = this.props.counterValue - this.props.interval
+                        this.props.setCounter(
+                            result > this.props.min
+                                ? result
+                                : this.props.min , this.props.type )
                     }}
                 >-</div>
             </div>
-        );
+        )
     }
 }
-
-
 
 // Connect with redux
 export default connect(
     null,
     mapDispatchToProps
-)(Component);
+)(Component)

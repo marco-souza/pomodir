@@ -33,7 +33,7 @@ rules:
         - double
     semi:
         - error
-        - always
+        - never
     no-console:
         - off
     no-unused-vars:
@@ -65,7 +65,7 @@ rules:
         - error
         - always
     flowtype/use-flow-type: error
-    
+
 settings:
     flowtype:
         onlyFilesWithFlowAnnotation: false
