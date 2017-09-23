@@ -2,6 +2,13 @@
 
 ---
 
+- Remove semi comman
+- Refactoring Counter and NumberSelect
+- redux folder with actions and reducers
+- update webpack
+
+---
+
 - Integration with redux
 - Fix current time
 
